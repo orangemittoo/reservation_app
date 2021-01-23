@@ -23,6 +23,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->addSQLLog();
+    }
+
+    private function addSQLLog()
+    {
+        \DB::listen(function ($query) {
+            \Log::debug("Query Time:{$query->time}s] $query->sql");
+            if ($query->bindings) {
+                \Log::debug("Query Bindings:" . json_encode($query->bindings));
+            }
+        });
     }
 }
