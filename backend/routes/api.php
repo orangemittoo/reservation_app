@@ -20,6 +20,12 @@ Auth::routes([
     'confirm'  => false
 ]);
 
+Route::get('/hoge', function (Request $request) {
+    return [
+        'result' => 1
+    ];
+});
+
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });

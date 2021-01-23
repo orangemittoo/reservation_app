@@ -62,7 +62,6 @@ fabric.properties
 .env
 
 # Laravel
-backend/node_modules
 backend/public/hot
 backend/public/storage
 backend/storage/*.key
@@ -77,3 +76,8 @@ backend/yarn-error.log
 
 # PHPStorm
 .idea
+
+# frontend
+frontend/.nuxt
+frontend/dist
+*node_modules
