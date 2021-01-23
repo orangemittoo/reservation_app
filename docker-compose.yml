@@ -1,29 +1,18 @@
-version: "3.8"
+version: "2"
 volumes:
   php-fpm-socket:
   db-store:
 services:
   front:
     image: node:14.15.3
+    working_dir: "/work/frontend"
     volumes:
       - ./frontend:/work/frontend
     ports:
       - "3000:3000"
-    command: npm start
-    environment:
-      - NODE_ENV=developmentn
+    command: npm run dev
 
-  front_web:
-    build:
-      context: .
-      dockerfile: ./infra/docker/front_web/Dockerfile
-    volumes:
-      - ./frontend/public:/work/frontend/public
-      - ./infra/docker/front_web/default.conf:/etc/nginx/default.conf
-    ports:
-      - "80:80"
-
-  api:
+  app:
     build:
       context: .
       dockerfile: ./infra/docker/php/Dockerfile
@@ -38,13 +27,14 @@ services:
       - DB_USERNAME=${DB_USER:-phper}
       - DB_PASSWORD=${DB_PASS:-secret}
 
-  api_web:
+  web:
     build:
       context: .
-      dockerfile: ./infra/docker/api_nginx/Dockerfile
+      dockerfile: infra/docker/nginx/Dockerfile
     ports:
       - 8080:80
     volumes:
+      - php-fpm-socket:/var/run/php-fpm
       - ./backend:/work/backend
 
   db:
