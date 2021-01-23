@@ -3,26 +3,26 @@ volumes:
   php-fpm-socket:
   db-store:
 services:
-#  front:
-#    image: node:14.15.3
-#    volumes:
-#      - ./frontend:/work/frontend
-#    ports:
-#      - "3000:3000"
-#    command: npm start
-#    environment:
-#      - NODE_ENV=developmentn
-#
-#  front_web:
-#    build:
-#      context: .
-#      dockerfile: ./infra/docker/front_web/Dockerfile
-#    volumes:
-#      - ./frontend/public:/work/frontend/public
-#      - ./infra/docker/front_web/default.conf:/etc/nginx/default.conf
-#    ports:
-#      - "80:80"
-#
+  front:
+    image: node:14.15.3
+    volumes:
+      - ./frontend:/work/frontend
+    ports:
+      - "3000:3000"
+    command: npm start
+    environment:
+      - NODE_ENV=developmentn
+
+  front_web:
+    build:
+      context: .
+      dockerfile: ./infra/docker/front_web/Dockerfile
+    volumes:
+      - ./frontend/public:/work/frontend/public
+      - ./infra/docker/front_web/default.conf:/etc/nginx/default.conf
+    ports:
+      - "80:80"
+
   api:
     build:
       context: .
