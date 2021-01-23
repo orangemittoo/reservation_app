@@ -30,7 +30,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: infra/docker/nginx/Dockerfile
+      dockerfile: ./infra/docker/nginx/Dockerfile
     ports:
       - 8080:80
     volumes:
