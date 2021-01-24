@@ -10,12 +10,15 @@
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.0.1",
+    "axios": "^0.21.1",
     "core-js": "^3.8.2",
+    "humps": "^2.0.1",
     "nuxt": "^2.14.12"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.12",
     "@nuxt/typescript-build": "^2.0.4",
-    "@nuxtjs/vuetify": "^1.11.3"
+    "@nuxtjs/vuetify": "^1.11.3",
+    "@types/humps": "^2.0.0"
   }
 }
