@@ -22,7 +22,7 @@ Auth::routes([
 
 Route::get('/hoge', function (Request $request) {
     return [
-        'result' => 1
+        'result' => \App\User::all()
     ];
 });
 
