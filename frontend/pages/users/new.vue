@@ -79,6 +79,7 @@ import { saveToken } from "@/libs/token";
 import Vue from "vue";
 
 export default Vue.extend({
+  layout: 'public',
   components: {
     FormLayout
   },

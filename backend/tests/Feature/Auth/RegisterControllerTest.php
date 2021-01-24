@@ -14,7 +14,7 @@ class RegisterControllerTest extends TestCase
      * @runInSeparateProcess
      * @return void
      */
-    public function ユーザー登録()
+    public function register()
     {
         $response = $this->json('POST', '/api/register', [
             'name' => 'taro',

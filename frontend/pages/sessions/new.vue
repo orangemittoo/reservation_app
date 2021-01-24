@@ -57,6 +57,7 @@ import login from "@/api/login";
 import { saveToken } from "@/libs/token";
 
 export default Vue.extend({
+  layout: 'public',
   components: {
     FormLayout
   },

@@ -6,7 +6,7 @@ use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class LoginControllerTest extends TestCase
+class IdentityControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -15,19 +15,19 @@ class LoginControllerTest extends TestCase
      * @runInSeparateProcess
      * @return void
      */
-    public function login()
+    public function identity()
     {
         $user = factory(User::class)->create([
             'email' => 'a@example.com'
         ]);
-        $response = $this->json('POST', '/api/login', [
-            'email' => 'a@example.com',
-            'password' => 'password',
-        ]);
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$user->api_token,
+            'Accept' => 'application/json',
+        ])->json('GET', '/api/identity');
         $response->assertStatus(200);
-        $response->assertJSON([
+        $response->assertJson([
             'user' => [
-                'api_token' => $user->api_token
+                'name' => $user->name
             ]
         ]);
     }
