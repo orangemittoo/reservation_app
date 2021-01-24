@@ -1,18 +1,11 @@
 <template>
   <form-layout>
-    <h1>ユーザー登録</h1>
+    <h1>ログイン</h1>
     <v-form
       ref="form"
       v-model="valid"
       lazy-validation
     >
-      <v-text-field
-        v-model="name"
-        :counter="10"
-        :rules="nameRules"
-        label="名前"
-        required
-      ></v-text-field>
 
       <v-text-field
         v-model="email"
@@ -29,14 +22,6 @@
         required
       ></v-text-field>
 
-      <v-text-field
-        v-model="passwordConfirmation"
-        :rules="passwordRules"
-        type="password"
-        label="パスワード（再入力）"
-        required
-      ></v-text-field>
-
       <v-row class="mt-5">
         <v-col cols="8">
           <v-btn
@@ -45,25 +30,18 @@
             class="mr-4"
             @click="submit"
           >
-            登録
-          </v-btn>
-
-          <v-btn
-            class="mr-4"
-            @click="reset"
-          >
-            リセット
+            ログイン
           </v-btn>
         </v-col>
         <v-col cols="4" class="text-right">
-          <router-link to="/sessions/new">
+          <router-link to="/users/new">
             <v-btn
               :disabled="!valid"
               color="secondary"
               class="mr-4"
               @click="submit"
             >
-              ログイン
+              ユーザー登録
             </v-btn>
           </router-link>
         </v-col>
@@ -73,10 +51,10 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue';
 import FormLayout from '@/components/FormLayout.vue'
-import createUser from "@/api/createUser";
+import login from "@/api/login";
 import { saveToken } from "@/libs/token";
-import Vue from "vue";
 
 export default Vue.extend({
   components: {
@@ -84,11 +62,6 @@ export default Vue.extend({
   },
   data: () => ({
     valid: true,
-    name: '',
-    nameRules: [
-      v => !!v || '名前を入力してください',
-      v => (v && v.length <= 10) || '名前は10文字以下で入力してください',
-    ],
     email: '',
     emailRules: [
       v => !!v || 'メールアドレスを入力してください',
@@ -97,23 +70,14 @@ export default Vue.extend({
     password: '',
     passwordConfirmation: '',
     passwordRules: [
-      v => !!v || 'パスワードを入力してください',
-      v => (v && v.length >= 8) || 'パスワードは8文字以上で入力してください',
+      v => !!v || 'パスワードを入力してください'
     ]
   }),
-
-  head() {
-    return {
-      title: 'ユーザー登録',
-    }
-  },
-
   computed: {
     form(): any {
       return this.$refs.form;
     }
   },
-
   methods: {
     validate () {
       this.form.validate()
@@ -126,13 +90,10 @@ export default Vue.extend({
       await this.$nextTick()
 
       if (this.valid) {
-        createUser({
-          name: this.name,
+        login({
           email: this.email,
-          password: this.password,
-          passwordConfirmation: this.passwordConfirmation
+          password: this.password
         }).then((response: { user: {apiToken: string} }) => {
-          // 登録完了モーダルを出す
           saveToken(response.user.apiToken);
           this.$router.push('/');
         });
