@@ -72,11 +72,13 @@
   </form-layout>
 </template>
 
-<script>
-import FormLayout from '~/components/FormLayout.vue'
-import createUser from "~/api/createUser";
+<script lang="ts">
+import FormLayout from '@/components/FormLayout.vue'
+import createUser from "@/api/createUser";
+import { saveToken } from "@/libs/token";
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
   components: {
     FormLayout
   },
@@ -106,12 +108,18 @@ export default {
     }
   },
 
+  computed: {
+    form(): any {
+      return this.$refs.form;
+    }
+  },
+
   methods: {
     validate () {
-      this.$refs.form.validate()
+      this.form.validate()
     },
     reset () {
-      this.$refs.form.reset()
+      this.form.reset()
     },
     async submit () {
       this.validate();
@@ -123,12 +131,13 @@ export default {
           email: this.email,
           password: this.password,
           passwordConfirmation: this.passwordConfirmation
-        }).then(() => {
+        }).then((response: { user: {apiToken: string} }) => {
           // 登録完了モーダルを出す
+          saveToken(response.user.apiToken);
           this.$router.push('/');
         });
       }
     }
   },
-}
+});
 </script>

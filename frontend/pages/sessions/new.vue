@@ -50,11 +50,13 @@
   </form-layout>
 </template>
 
-<script>
-import FormLayout from '~/components/FormLayout.vue'
-import login from "~/api/login";
+<script lang="ts">
+import Vue from 'vue';
+import FormLayout from '@/components/FormLayout.vue'
+import login from "@/api/login";
+import { saveToken } from "@/libs/token";
 
-export default {
+export default Vue.extend({
   components: {
     FormLayout
   },
@@ -71,13 +73,17 @@ export default {
       v => !!v || 'パスワードを入力してください'
     ]
   }),
-
+  computed: {
+    form(): any {
+      return this.$refs.form;
+    }
+  },
   methods: {
     validate () {
-      this.$refs.form.validate()
+      this.form.validate()
     },
     reset () {
-      this.$refs.form.reset()
+      this.form.reset()
     },
     async submit () {
       this.validate();
@@ -87,11 +93,12 @@ export default {
         login({
           email: this.email,
           password: this.password
-        }).then(() => {
+        }).then((response: { user: {apiToken: string} }) => {
+          saveToken(response.user.apiToken);
           this.$router.push('/');
         });
       }
     }
   },
-}
+});
 </script>
