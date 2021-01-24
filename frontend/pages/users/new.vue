@@ -22,9 +22,18 @@
       ></v-text-field>
 
       <v-text-field
+        v-model="password"
+        :rules="passwordRules"
+        label="パスワード"
+        type="password"
+        required
+      ></v-text-field>
+
+      <v-text-field
         v-model="passwordConfirmation"
-        :rules="emailRules"
-        label="メールアドレス（再入力）"
+        :rules="passwordRules"
+        type="password"
+        label="パスワード（再入力）"
         required
       ></v-text-field>
 
@@ -65,10 +74,15 @@ export default {
       v => (v && v.length <= 10) || '名前は10文字以下で入力してください',
     ],
     email: '',
-    passwordConfirmation: '',
     emailRules: [
       v => !!v || 'メールアドレスを入力してください',
       v => /.+@.+\..+/.test(v) || 'メールアドレスの形式が不正です',
+    ],
+    password: '',
+    passwordConfirmation: '',
+    passwordRules: [
+      v => !!v || 'パスワードを入力してください',
+      v => (v && v.length >= 8) || '名前は8文字以上で入力してください',
     ]
   }),
 
@@ -86,6 +100,7 @@ export default {
       if (this.valid) {
         createUser({
           name: this.name,
+          email: this.email,
           password: this.password,
           passwordConfirmation: this.passwordConfirmation
         }).then(() => {
