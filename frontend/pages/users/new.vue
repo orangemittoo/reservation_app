@@ -51,6 +51,7 @@
 
 <script>
 import FormLayout from '~/components/FormLayout.vue'
+import createUser from "~/api/createUser";
 
 export default {
   components: {
@@ -83,7 +84,13 @@ export default {
       await this.$nextTick()
 
       if (this.valid) {
-        alert('submit')
+        createUser({
+          name: this.name,
+          password: this.password,
+          passwordConfirmation: this.passwordConfirmation
+        }).then(() => {
+          alert('登録完了');
+        });
       }
     }
   },

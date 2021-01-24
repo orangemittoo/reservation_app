@@ -27,9 +27,8 @@ axios.interceptors.response.use(
 
 
 const requestDefaultConfig = {
-  baseURL: '/api'
+  baseURL: 'http://localhost:8080/api',
 };
-
 
 const loader = (() => {
   let loadCounter = 0;
