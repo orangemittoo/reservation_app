@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import humps from 'humps';
+import { getToken } from "@/libs/token";
 
 axios.interceptors.request.use(
   function (config) {
@@ -28,6 +29,9 @@ axios.interceptors.response.use(
 
 const requestDefaultConfig = {
   baseURL: 'http://localhost:8080/api',
+  headers: {
+    'Accept': 'application/json'
+  }
 };
 
 const loader = (() => {
@@ -110,7 +114,10 @@ export default  (
     ...requestDefaultConfig,
     ...config,
     baseURL:
-      options.baseURL == null ? requestDefaultConfig.baseURL : options.baseURL
+      options.baseURL == null ? requestDefaultConfig.baseURL : options.baseURL,
+    headers: {
+      'Authorization': 'Bearer ' + getToken()
+    }
   };
 
   const isDisplayLoader = !options.hideLoader;
