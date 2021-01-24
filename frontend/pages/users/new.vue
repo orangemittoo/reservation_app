@@ -104,7 +104,8 @@ export default {
           password: this.password,
           passwordConfirmation: this.passwordConfirmation
         }).then(() => {
-          alert('登録完了');
+          // 登録完了モーダルを出す
+          this.$router.push('/');
         });
       }
     }
