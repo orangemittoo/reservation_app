@@ -94,7 +94,11 @@ export const errorHandler = (hideErrorMessage = false) => (
   // rootStore.hideLoader();
 
   if (!hideErrorMessage) {
-    // rootStore.setErrors(flatSingle(Object.values(response.data.errors)));
+    const err: string[] = [];
+    for (const [key, value] of Object.entries(response.data.errors)) {
+      err.push(value as string);
+    }
+    alert(err.join('\n'));
   }
 
   return Promise.reject(response);
