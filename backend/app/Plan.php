@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Plan extends Model
 {
+    protected $fillable = [
+        'name'
+    ];
+
     public function room_types()
     {
         return $this->belongsToMany('App\RoomType');

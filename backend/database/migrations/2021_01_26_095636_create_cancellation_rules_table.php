@@ -17,7 +17,7 @@ class CreateCancellationRulesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('plan_id');
             $table->integer('before_day_num');
-            $table->string('percentage');
+            $table->integer('percentage');
             $table->timestamps();
         });
     }
