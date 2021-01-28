@@ -2,16 +2,13 @@
 
 namespace App\Services\Plan;
 
-use App\Plan;
+use App\Accommodation;
 
 class CreatePlan
 {
-    public function execute(array $params)
+    public function execute(Accommodation $accommodation, array $params)
     {
-        $plan = new Plan();
-        $plan->name = $params['name'];
-        $plan->save();
-
+        $plan = $accommodation->plans()->create($params['plan']);
         $plan->plan_fees()->createMany($params['plan_fees']);
         $plan->plan_stocks()->createMany($params['plan_stocks']);
         $plan->cancellation_rules()->createMany($params['cancellation_rules']);

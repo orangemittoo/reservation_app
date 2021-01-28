@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 // use PHPUnit\Framework\TestCase;
 use App\Services\Plan\CreatePlan;
+use App\Accommodation;
 
 class CreatePlanTest extends TestCase
 {
@@ -18,6 +19,12 @@ class CreatePlanTest extends TestCase
      */
     public function createPlan()
     {
+        $accommodation = Accommodation::create([
+            'name' => 'accommodation_name'
+        ]);
+        $plan = [
+            'name' => 'plan_name'
+        ];
         $plan_fees = [
             [
                 'fee' => 10000,
@@ -52,14 +59,14 @@ class CreatePlanTest extends TestCase
                 'percentage' => 10
             ]
         ];
-        (new CreatePlan)->execute([
-            'name' => 'hotel',
+        (new CreatePlan)->execute($accommodation, [
+            'plan' => $plan,
             'plan_fees' => $plan_fees,
             'plan_stocks' => $plan_stocks,
             'cancellation_rules' => $cancellation_rules
         ]);
         $this->assertDatabaseHas('plans', [
-            'name' => 'hotel'
+            'name' => 'plan_name'
         ]);
         $this->assertDatabaseHas('plan_fees', [
             'fee' => 10000,
